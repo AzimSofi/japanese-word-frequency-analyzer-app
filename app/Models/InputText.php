@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class InputText extends Model
 {
     use HasFactory;
+    protected $table = 'input_texts';
+    protected $fillable = ['content'];
+    public function wordFrequencies()
+    {
+        return $this->hasMany(WordFrequency::class);
+    }
+
 }

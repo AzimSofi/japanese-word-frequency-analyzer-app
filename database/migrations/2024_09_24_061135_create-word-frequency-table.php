@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('word-frequency', function (Blueprint $table) {
+        Schema::create('word_frequency', function (Blueprint $table) {
             $table->id();
-            $table->string("単語");
-            $table->integer("頻度");
+            $table->foreignId('input_text_id')
+                ->constrained('input_texts')
+                ->onDelete('cascade');
+            $table->string("word");
+            $table->integer("frequency");
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('word-frequency-table');
+        Schema::dropIfExists('word_frequency');
     }
 };
