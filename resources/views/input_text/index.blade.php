@@ -3,11 +3,14 @@
 @section('title', 'Input Text')
 
 @section('content')
+    <a href="{{ route('compare.index') }}">
+        <button type="button">Compare with text</button>
+    </a><br>
     <a href="{{ route('frequencies.index') }}">
         <button type="button">Go to Frequencies</button>
     </a>
 
-    <h2>Input Large Japanese Text</h2>
+    <h2>Input Large Japanese Text into Database</h2>
 
     @if (session('success'))
         <p style="color: green;">{{ session('success') }}</p>

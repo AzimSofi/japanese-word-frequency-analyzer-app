@@ -43,7 +43,7 @@ class InputTextController extends Controller
                 ]);
             }
 
-            return redirect()->route('input-text.create')->with('success', 'Text has been saved and analyzed successfully!');
+            return redirect()->route('input-text.index')->with('success', 'Text has been saved and analyzed successfully!');
         } catch (\Exception $e) {
             return redirect()
                 ->route('input-text.index')
