@@ -24,7 +24,7 @@ class InputTextController extends Controller
             'content' => $request->input('content'),
         ]);
 
-        $client = new \GuzzleHttp\Client();
+        $client = new Client();
         try {
             // Make a POST request to API
             $response = $client->post('http://localhost:5000/analyze', [
