@@ -4,14 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\WordFrequency;
 use App\Models\Compare;
+use App\Models\InputText;
 use Illuminate\Http\Request;
 
 class CompareController extends Controller
 {
     public function index()
     {
+        $input_texts = InputText::all();
+        return view('compare.index', compact('input_texts'));
+    }
 
-        return view('compare.index');
+    public function show($id)
+    {
+        $Input_text = InputText::find($id);
+        return view('compare.show', compact('Input_text'));
     }
 
     public function store(Request $request)
