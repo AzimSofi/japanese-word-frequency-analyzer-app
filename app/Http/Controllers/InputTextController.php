@@ -16,15 +16,32 @@ class InputTextController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request);
+
         $request->validate([
             'content' => 'required|string|min:10',
+            'file' => 'nullable|mimes:txt|max:2048',
         ]);
 
-        $inputText = InputText::create(
-            attributes: [
-                'content' => $request->input('content'),
-            ],
-        );
+        $content = '';
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $content = file_get_contents($file->getPathname());
+        } elseif ($request->filled('content')) {
+            // If no file is uploaded, use the content from the textarea
+            $content = $request->input('content');
+        }
+
+        if (empty($content)) {
+            return redirect()
+                ->back()
+                ->withErrors(['error' => 'Please provide either text input or upload a file.']);
+        }
+
+        $inputText = InputText::create([
+            'content' => $content,
+        ]);
 
         $client = new Client();
         try {
@@ -59,4 +76,6 @@ class InputTextController extends Controller
                 ->with('error', 'Failed to analyze the text: ' . $e->getMessage());
         }
     }
+
+
 }
