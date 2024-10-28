@@ -20,29 +20,38 @@ class InputTextController extends Controller
             'content' => 'required|string|min:10',
         ]);
 
-        $inputText = InputText::create([
-            'content' => $request->input('content'),
-        ]);
+        $inputText = InputText::create(
+            attributes: [
+                'content' => $request->input('content'),
+            ],
+        );
 
         $client = new Client();
         try {
-            // Make a POST request to API
             $response = $client->post('http://localhost:5000/analyze', [
-                'json' => ['text_id' => $inputText->id],
+                'json' => ['content' => $inputText->content],
             ]);
 
-            // Decode the JSON
             $data = json_decode($response->getBody(), true);
             // dd($data);
 
             foreach ($data['frequencies'] as $word => $frequency) {
-                WordFrequency::create([
-                    'input_text_id' => $inputText->id,
-                    'word' => $word,
-                    'frequency' => $frequency,
-                ]);
-            }
+                // Check if the word already exists for the current word
+                $existingWord = WordFrequency::where('word', $word)->first();
 
+                // dd(vars: $existingWord);
+                if ($existingWord) {
+                    $existingWord->update([
+                        'frequency' => $existingWord->frequency + $frequency,
+                    ]);
+                } else {
+                    WordFrequency::create([
+                        'input_text_id' => $inputText->id,
+                        'word' => $word,
+                        'frequency' => $frequency,
+                    ]);
+                }
+            }
             return redirect()->route('input-text.index')->with('success', 'Text has been saved and analyzed successfully!');
         } catch (\Exception $e) {
             return redirect()
