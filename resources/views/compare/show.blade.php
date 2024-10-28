@@ -11,7 +11,6 @@
     <br>
     <h2>Tokenized Words with Frequencies and Colors</h2>
     <p>
-        @foreach ($wordFrequenciesDict as $wordData)<span style="color: {{ $wordData['color'] }};">{{ $wordData['word'] }}{{-- ({{ $wordData['frequency'] }}) --}}</span>@endforeach
-    </p>
+        @foreach ($wordFrequenciesDict as $wordData)<span style="color: {{ $wordData['frequency'] < 0 ? 'black' : $wordData['color'] }};">{{ $wordData['word'] }}{{-- ({{ $wordData['frequency'] }}) --}}</span>@endforeach</p>
 
 @endsection
