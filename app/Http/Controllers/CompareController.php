@@ -12,13 +12,13 @@ class CompareController extends Controller
 {
     public function index()
     {
-        $input_texts = InputText::all();
-        return view('compare.index', compact('input_texts'));
+        $compare_input_texts = Compare::all();
+        return view('compare.index', compact('compare_input_texts'));
     }
 
     public function show($id)
     {
-        $input_text = InputText::find($id);
+        $input_text = Compare::find($id);
         $frequency = WordFrequency::all();
 
         $client = new Client();
