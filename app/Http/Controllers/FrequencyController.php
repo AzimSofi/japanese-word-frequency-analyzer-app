@@ -8,14 +8,18 @@ use App\Models\InputText;
 class FrequencyController extends Controller
 {
     public function show($text_id)
-{
-    $inputText = InputText::findOrFail($text_id);
-    $wordFrequencies = WordFrequency::where('input_text_id', $text_id)
-                                    ->orderBy('frequency', 'desc')
-                                    ->get();
+    {
+        $inputText = InputText::findOrFail($text_id);
+        $wordFrequencies = WordFrequency::where('input_text_id', $text_id)->orderBy('frequency', 'desc')->get();
 
-    return view('frequencies.show', compact('inputText', 'wordFrequencies'));
-}
+        return view('frequencies.show', compact('inputText', 'wordFrequencies'));
+    }
+
+    public function showAll()
+    {
+        $wordFrequencies = WordFrequency::orderByDesc('frequency')->get();
+        return view('frequencies.showAll', compact( 'wordFrequencies'));
+    }
 
     // Show all texts
     public function index()

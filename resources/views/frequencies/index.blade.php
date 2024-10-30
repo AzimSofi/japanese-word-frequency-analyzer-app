@@ -6,6 +6,9 @@
     <h2>Choose a Text to View Word Frequencies</h2>
 
     <ul>
+        <a href="{{ route('frequencies.showAll') }}">
+            全部
+        </a>
         @foreach ($texts as $text)
             <li>
                 <a href="{{ route('frequencies.show', $text->id) }}">
